@@ -1,0 +1,14 @@
+CREATE TABLE public.contas
+(
+codigo serial primary key,
+clientes_codigo integer,
+veiculos_codigo integer,
+patios_codigo integer,
+diarias integer NOT NULL,
+mes integer NOT NULL,
+ano integer,
+paga boolean,
+CONSTRAINT clientes_codigo FOREIGN KEY(clientes_codigo) REFERENCES clientes(codigo),
+CONSTRAINT veiculos_codigo FOREIGN KEY(veiculos_codigo) REFERENCES veiculos(codigo),
+CONSTRAINT patios_codigo FOREIGN KEY(patios_codigo) REFERENCES patios(codigo)
+)

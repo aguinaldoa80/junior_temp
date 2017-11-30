@@ -1,0 +1,14 @@
+CREATE TABLE public.veiculos
+(
+  codigo serial primary key,
+  marca character varying(50) NOT NULL,
+  modelo character varying(50) NOT NULL,
+  anofabricacao integer NOT NULL,
+  anomodelo integer NOT NULL,
+  chassi character varying(50) NOT NULL,
+  placa character varying(50) NOT NULL,
+  capacidadecarga real,
+  cilindradas integer,
+  capacidadepassageiros integer,
+  quantidadeportas integer
+)

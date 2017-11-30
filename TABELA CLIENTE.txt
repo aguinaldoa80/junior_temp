@@ -1,0 +1,12 @@
+CREATE TABLE public.clientes
+(
+  codigo serial primary key,
+  nome character varying(50) NOT NULL,
+  logradouro character varying(50) NOT NULL,
+  numero character varying(50) NOT NULL,
+  bairro character varying(50) NOT NULL,
+  municipio character varying(50) NOT NULL,
+  estado character varying(50) NOT NULL,
+  cep character varying(50) NOT NULL,
+  telefone character varying(50) NOT NULL
+  )
