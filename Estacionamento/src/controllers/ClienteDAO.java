@@ -31,11 +31,11 @@ public class ClienteDAO {
 		cliente.setNome(sc.nextLine());
 		System.out.println("LOGRADOURO: ");
 		cliente.setLogradouro(sc.nextLine());
-		System.out.println("NÚMERO: ");
+		System.out.println("Nï¿½MERO: ");
 		cliente.setNumero(sc.nextLine());
 		System.out.println("BAIRRO: ");
 		cliente.setBairro(sc.nextLine());
-		System.out.println("MUNICÍPIO: ");
+		System.out.println("MUNICï¿½PIO: ");
 		cliente.setMunicipio(sc.nextLine());
 		System.out.println("ESTADO: ");
 		cliente.setEstado(sc.nextLine());
@@ -60,11 +60,11 @@ public class ClienteDAO {
 			stm.execute();
 			stm.close();
 			con.close();
-			System.out.println("\nTRANSAÇÃO DE CADASTRO REALIZADA COM SUCESSO.\n");
+			System.out.println("\nTRANSAï¿½ï¿½O DE CADASTRO REALIZADA COM SUCESSO.\n");
 		} catch (Exception e) {
 
 			System.err.println(e);
-			System.out.println("\nNÃO FOI POSSÍVEL ACESSAR A BASE DE DADOS.\n");
+			System.out.println("\nNï¿½O FOI POSSï¿½VEL ACESSAR A BASE DE DADOS.\n");
 		}
 
 	}
@@ -73,29 +73,43 @@ public class ClienteDAO {
 		int codigo = 0, resp = 0, op2 = 0;
 		String str, str2;
 		boolean flag = false;
-		System.out.println("--== [ ALTERAÇÃO DE CLIENTE ] ==--");
-		System.out.println("\nINFORME O CÓDIGO DO CLIENTE.\n");
-		System.out.print("CÓDIGO: ");
+		System.out.println("--== [ ALTERAï¿½ï¿½O DE CLIENTE ] ==--");
+		System.out.println("\nINFORME O Cï¿½DIGO DO CLIENTE.\n");
+		System.out.print("Cï¿½DIGO: ");
 		str2 = sc.nextLine();
 		try {
 			codigo = Integer.parseInt(str2);
 			if (codigo <= 0) {
-				System.out.println("\nO CÓDIGO DIGITADO NÃO É VÁLIDO.\n");
+				System.out.println("\nO Cï¿½DIGO DIGITADO Nï¿½O ï¿½ Vï¿½LIDO.\n");
 				flag = true;
 			}
 		} catch (NumberFormatException e) {
 
-			System.out.println("\nLETRAS NÃO SÃO PERMITIDAS.\n");
+			System.out.println("\nLETRAS Nï¿½O Sï¿½O PERMITIDAS.\n");
 			flag = true;
 
 		}
 
 		try {
+			/*
+			 * NÃ£o faÃ§a where codigo = + codigo;
+			 * nÃ£o concatena string em sql
+			 * poem assim
+			 * where codigo = ?;
+			 * stm.setInt(1,numero);
+			 */
 			sql = "select * from clientes where codigo = " + codigo;
 			con = Conexao.getConexao();
 			stm = con.prepareStatement(sql);
 			ResultSet rs = stm.executeQuery();
 			while (rs.next()) {
+				/*
+				 * Que porquera Ã© essa mano ta vendo essa putaria quando passa os argumentos
+				 * por construtor olha isso que puta funÃ§Ã£o do caraleo.
+				 * por isso prefiro construtor vazio e passa os argumento pelos set
+				 * cliente.setNome();
+				 * cliente.setEndereÃ§o();
+				 */
 				cliente = new Cliente(codigo, rs.getString("nome"), rs.getString("telefone"),
 						rs.getString("logradouro"), rs.getString("numero"), rs.getString("bairro"),
 						rs.getString("municipio"), rs.getString("cep"), rs.getString("estado"));
@@ -104,46 +118,46 @@ public class ClienteDAO {
 				flag = true;
 			}
 		} catch (SQLException ex) {
-			System.out.println("\nNÃO FOI POSSÍVEL ACESSAR A BASE DE DADOS.\n" + ex);
+			System.out.println("\nNï¿½O FOI POSSï¿½VEL ACESSAR A BASE DE DADOS.\n" + ex);
 		}
 
 		if (!flag) {
-			System.out.println("\nNÃO HÁ CLIENTE CADASTRADO COM O CÓDIGO " + codigo);
+			System.out.println("\nNï¿½O Hï¿½ CLIENTE CADASTRADO COM O Cï¿½DIGO " + codigo);
 			System.out.print("\n");
 			return;
 		}
 
 		do {
 			System.out.println("\n1 - ALTERAR TUDO");
-			System.out.println("2 - ALTERAR INFORMAÇÃO ESPECÍFICA");
+			System.out.println("2 - ALTERAR INFORMAï¿½ï¿½O ESPECï¿½FICA");
 			System.out.println("3 - VOLTAR");
-			System.out.print("OPÇÃO: ");
+			System.out.print("OPï¿½ï¿½O: ");
 			str = sc.nextLine();
 			try {
 				resp = Integer.parseInt(str);
 				if (resp <= 0 || resp > 3) {
-					System.out.println("\nO NÚMERO DIGITADO ESTÁ FORA DO INTERVALO DO MENU.\n");
+					System.out.println("\nO Nï¿½MERO DIGITADO ESTï¿½ FORA DO INTERVALO DO MENU.\n");
 
 				}
 			} catch (NumberFormatException e) {
 
-				System.out.println("\nLETRAS NÃO SÃO PERMITIDAS.\n");
+				System.out.println("\nLETRAS Nï¿½O Sï¿½O PERMITIDAS.\n");
 				resp = 0;
 
 			}
 			switch (resp) {
 
 			case 1:
-				System.out.println("\n--== [ ALTERAR INFORMAÇÕES ] ==--\n");
+				System.out.println("\n--== [ ALTERAR INFORMAï¿½ï¿½ES ] ==--\n");
 				System.out.println("NOME: ");
 				cliente.setNome(sc.nextLine());
 				System.out.println("LOGRADOURO: ");
 				cliente.setLogradouro(sc.nextLine());
-				System.out.println("NÚMERO: ");
+				System.out.println("Nï¿½MERO: ");
 				cliente.setNumero(sc.nextLine());
 				System.out.println("BAIRRO: ");
 				cliente.setBairro(sc.nextLine());
-				System.out.println("MUNICÍPIO: ");
+				System.out.println("MUNICï¿½PIO: ");
 				cliente.setMunicipio(sc.nextLine());
 				System.out.println("ESTADO: ");
 				cliente.setEstado(sc.nextLine());
@@ -158,37 +172,40 @@ public class ClienteDAO {
 							+ "\', municipio = \'" + cliente.getMunicipio() + "\', cep = \'" + cliente.getCep()
 							+ "\', estado = \'" + cliente.getEstado() + "\' where codigo = " + cliente.getCodigo();
 					stm = con.prepareStatement(sql);
+					/*
+					 * stm.executeUpdate()
+					 */
 					stm.execute();
 				} catch (SQLException e) {
-					System.out.println("\nNÃO FOI POSSÍVEL ACESSAR A BASE DE DADOS.\n" + e);
+					System.out.println("\nNï¿½O FOI POSSï¿½VEL ACESSAR A BASE DE DADOS.\n" + e);
 				}
 
-				System.out.println("\nTRANSAÇÃO DE ALTERAÇÃO REALIZADA COM SUCESSO.\n");
+				System.out.println("\nTRANSAï¿½ï¿½O DE ALTERAï¿½ï¿½O REALIZADA COM SUCESSO.\n");
 				break;
 			case 2:
 				do {
-					System.out.println("\n--== [ ALTERAR INFORMAÇÃO ] ==--\n");
+					System.out.println("\n--== [ ALTERAR INFORMAï¿½ï¿½O ] ==--\n");
 					System.out.println("1 - NOME");
 					System.out.println("2 - LOGRADOURO");
-					System.out.println("3 - NÚMERO");
+					System.out.println("3 - Nï¿½MERO");
 					System.out.println("4 - BAIRRO");
-					System.out.println("5 - MUNICÍPIO");
+					System.out.println("5 - MUNICï¿½PIO");
 					System.out.println("6 - ESTADO");
 					System.out.println("7 - CEP");
 					System.out.println("8 - TELEFONE");
 					System.out.println("9 - VOLTAR");
-					System.out.print("OPÇÃO: ");
+					System.out.print("OPï¿½ï¿½O: ");
 					str = sc.nextLine();
 					System.out.print("\n");
 					try {
 						op2 = Integer.parseInt(str);
 						if (op2 <= 0 || op2 > 9) {
-							System.out.println("\nO NÚMERO DIGITADO ESTÁ FORA DO INTERVALO DO MENU.\n");
+							System.out.println("\nO Nï¿½MERO DIGITADO ESTï¿½ FORA DO INTERVALO DO MENU.\n");
 
 						}
 					} catch (NumberFormatException e) {
 
-						System.out.println("\nLETRAS NÃO SÃO PERMITIDAS.\n");
+						System.out.println("\nLETRAS Nï¿½O Sï¿½O PERMITIDAS.\n");
 						op2 = 0;
 
 					}
@@ -203,10 +220,10 @@ public class ClienteDAO {
 							stm = con.prepareStatement(sql);
 							stm.execute();
 						} catch (SQLException e) {
-							System.out.println("\nNÃO FOI POSSÍVEL ACESSAR A BASE DE DADOS.\n" + e);
+							System.out.println("\nNï¿½O FOI POSSï¿½VEL ACESSAR A BASE DE DADOS.\n" + e);
 							return;
 						}
-						System.out.println("\nTRANSAÇÃO DE ALTERAÇÃO REALIZADA COM SUCESSO.\n");
+						System.out.println("\nTRANSAï¿½ï¿½O DE ALTERAï¿½ï¿½O REALIZADA COM SUCESSO.\n");
 						break;
 					case 2:
 						System.out.println("LOGRADOURO: ");
@@ -217,13 +234,13 @@ public class ClienteDAO {
 							stm = con.prepareStatement(sql);
 							stm.execute();
 						} catch (SQLException e) {
-							System.out.println("\nNÃO FOI POSSÍVEL ACESSAR A BASE DE DADOS.\n" + e);
+							System.out.println("\nNï¿½O FOI POSSï¿½VEL ACESSAR A BASE DE DADOS.\n" + e);
 							return;
 						}
-						System.out.println("\nTRANSAÇÃO DE ALTERAÇÃO REALIZADA COM SUCESSO.\n");
+						System.out.println("\nTRANSAï¿½ï¿½O DE ALTERAï¿½ï¿½O REALIZADA COM SUCESSO.\n");
 						break;
 					case 3:
-						System.out.println("NÚMERO: ");
+						System.out.println("Nï¿½MERO: ");
 						cliente.setNumero(sc.nextLine());
 						try {
 							sql = "update clientes set numero = \'" + cliente.getNumero() + "\'where codigo = "
@@ -231,10 +248,10 @@ public class ClienteDAO {
 							stm = con.prepareStatement(sql);
 							stm.execute();
 						} catch (SQLException e) {
-							System.out.println("\nNÃO FOI POSSÍVEL ACESSAR A BASE DE DADOS.\n" + e);
+							System.out.println("\nNï¿½O FOI POSSï¿½VEL ACESSAR A BASE DE DADOS.\n" + e);
 							return;
 						}
-						System.out.println("\nTRANSAÇÃO DE ALTERAÇÃO REALIZADA COM SUCESSO.\n");
+						System.out.println("\nTRANSAï¿½ï¿½O DE ALTERAï¿½ï¿½O REALIZADA COM SUCESSO.\n");
 						break;
 					case 4:
 						System.out.println("BAIRRO: ");
@@ -245,13 +262,13 @@ public class ClienteDAO {
 							stm = con.prepareStatement(sql);
 							stm.execute();
 						} catch (SQLException e) {
-							System.out.println("\nNÃO FOI POSSÍVEL ACESSAR A BASE DE DADOS.\n" + e);
+							System.out.println("\nNï¿½O FOI POSSï¿½VEL ACESSAR A BASE DE DADOS.\n" + e);
 							return;
 						}
-						System.out.println("\nTRANSAÇÃO DE ALTERAÇÃO REALIZADA COM SUCESSO.\n");
+						System.out.println("\nTRANSAï¿½ï¿½O DE ALTERAï¿½ï¿½O REALIZADA COM SUCESSO.\n");
 						break;
 					case 5:
-						System.out.println("MUNICÍPIO: ");
+						System.out.println("MUNICï¿½PIO: ");
 						cliente.setMunicipio(sc.nextLine());
 						try {
 							sql = "update clientes set municipio = \'" + cliente.getMunicipio() + "\'where codigo = "
@@ -259,10 +276,10 @@ public class ClienteDAO {
 							stm = con.prepareStatement(sql);
 							stm.execute();
 						} catch (SQLException e) {
-							System.out.println("\nNÃO FOI POSSÍVEL ACESSAR A BASE DE DADOS.\n" + e);
+							System.out.println("\nNï¿½O FOI POSSï¿½VEL ACESSAR A BASE DE DADOS.\n" + e);
 							return;
 						}
-						System.out.println("\nTRANSAÇÃO DE ALTERAÇÃO REALIZADA COM SUCESSO.\n");
+						System.out.println("\nTRANSAï¿½ï¿½O DE ALTERAï¿½ï¿½O REALIZADA COM SUCESSO.\n");
 						break;
 					case 6:
 						System.out.println("ESTADO: ");
@@ -273,10 +290,10 @@ public class ClienteDAO {
 							stm = con.prepareStatement(sql);
 							stm.execute();
 						} catch (SQLException e) {
-							System.out.println("\nNÃO FOI POSSÍVEL ACESSAR A BASE DE DADOS.\n" + e);
+							System.out.println("\nNï¿½O FOI POSSï¿½VEL ACESSAR A BASE DE DADOS.\n" + e);
 							return;
 						}
-						System.out.println("\nTRANSAÇÃO DE ALTERAÇÃO REALIZADA COM SUCESSO.\n");
+						System.out.println("\nTRANSAï¿½ï¿½O DE ALTERAï¿½ï¿½O REALIZADA COM SUCESSO.\n");
 						break;
 					case 7:
 						System.out.println("CEP: ");
@@ -287,10 +304,10 @@ public class ClienteDAO {
 							stm = con.prepareStatement(sql);
 							stm.execute();
 						} catch (SQLException e) {
-							System.out.println("\nNÃO FOI POSSÍVEL ACESSAR A BASE DE DADOS.\n" + e);
+							System.out.println("\nNï¿½O FOI POSSï¿½VEL ACESSAR A BASE DE DADOS.\n" + e);
 							return;
 						}
-						System.out.println("\nTRANSAÇÃO DE ALTERAÇÃO REALIZADA COM SUCESSO.\n");
+						System.out.println("\nTRANSAï¿½ï¿½O DE ALTERAï¿½ï¿½O REALIZADA COM SUCESSO.\n");
 						break;
 					case 8:
 						System.out.println("TELEFONE: ");
@@ -301,10 +318,10 @@ public class ClienteDAO {
 							stm = con.prepareStatement(sql);
 							stm.execute();
 						} catch (SQLException e) {
-							System.out.println("\nNÃO FOI POSSÍVEL ACESSAR A BASE DE DADOS.\n" + e);
+							System.out.println("\nNï¿½O FOI POSSï¿½VEL ACESSAR A BASE DE DADOS.\n" + e);
 							return;
 						}
-						System.out.println("\nTRANSAÇÃO DE ALTERAÇÃO REALIZADA COM SUCESSO.\n");
+						System.out.println("\nTRANSAï¿½ï¿½O DE ALTERAï¿½ï¿½O REALIZADA COM SUCESSO.\n");
 						break;
 					case 9:
 						break;
@@ -319,7 +336,7 @@ public class ClienteDAO {
 		} while (resp != 3);
 
 		if (!flag) {
-			System.out.println("\nNÃO HÁ CLIENTE CADASTRADO COM O CÓDIGO " + codigo);
+			System.out.println("\nNï¿½O Hï¿½ CLIENTE CADASTRADO COM O Cï¿½DIGO " + codigo);
 			System.out.print("\n");
 		}
 
@@ -329,20 +346,20 @@ public class ClienteDAO {
 		int codigo = 0, resp = 0;
 		String str;
 		boolean flag = false;
-		System.out.println("\n--== [ EXCLUSÃO DE CLIENTE ] ==--\n");
+		System.out.println("\n--== [ EXCLUSï¿½O DE CLIENTE ] ==--\n");
 
-		System.out.println("\nINFORME O CÓDIGO DO CLIENTE.\n");
-		System.out.print("CÓDIGO: ");
+		System.out.println("\nINFORME O Cï¿½DIGO DO CLIENTE.\n");
+		System.out.print("Cï¿½DIGO: ");
 		str = sc.nextLine();
 		try {
 			codigo = Integer.parseInt(str);
 			if (codigo <= 0) {
-				System.out.println("\nO CÓDIGO DIGITADO NÃO É VÁLIDO.\n");
+				System.out.println("\nO Cï¿½DIGO DIGITADO Nï¿½O ï¿½ Vï¿½LIDO.\n");
 				flag = true;
 			}
 		} catch (NumberFormatException e) {
 
-			System.out.println("\nLETRAS NÃO SÃO PERMITIDAS.\n");
+			System.out.println("\nLETRAS Nï¿½O Sï¿½O PERMITIDAS.\n");
 			flag = true;
 
 		}
@@ -361,26 +378,26 @@ public class ClienteDAO {
 
 			}
 		} catch (SQLException ex) {
-			System.out.println("\nNÃO FOI POSSÍVEL ACESSAR A BASE DE DADOS.\n" + ex);
+			System.out.println("\nNï¿½O FOI POSSï¿½VEL ACESSAR A BASE DE DADOS.\n" + ex);
 		}
 		if (!flag) {
-			System.out.println("\nNÃO HÁ CLIENTE CADASTRADO COM O CÓDIGO " + codigo);
+			System.out.println("\nNï¿½O Hï¿½ CLIENTE CADASTRADO COM O Cï¿½DIGO " + codigo);
 			System.out.print("\n");
 			return;
 		}
 
-		System.out.println("\nEXCLUIR 1 - SIM / 2 - NÃO");
-		System.out.print("OPÇÃO: ");
+		System.out.println("\nEXCLUIR 1 - SIM / 2 - Nï¿½O");
+		System.out.print("OPï¿½ï¿½O: ");
 		str = sc.nextLine();
 		try {
 			resp = Integer.parseInt(str);
 			if (resp <= 0) {
-				System.out.println("\nO CÓDIGO DIGITADO NÃO É VÁLIDO.\n");
+				System.out.println("\nO Cï¿½DIGO DIGITADO Nï¿½O ï¿½ Vï¿½LIDO.\n");
 				flag = true;
 			}
 		} catch (NumberFormatException e) {
 
-			System.out.println("\nLETRAS NÃO SÃO PERMITIDAS.\n");
+			System.out.println("\nLETRAS Nï¿½O Sï¿½O PERMITIDAS.\n");
 			flag = true;
 		}
 		if (resp == 1) {
@@ -388,14 +405,14 @@ public class ClienteDAO {
 				sql = "delete from clientes where codigo = " + codigo;
 				stm = con.prepareStatement(sql);
 				stm.execute();
-				System.out.println("\nTRANSAÇÃO DE EXCLUSÃO REALIZADA COM SUCESSO.\n");
+				System.out.println("\nTRANSAï¿½ï¿½O DE EXCLUSï¿½O REALIZADA COM SUCESSO.\n");
 				flag = true;
 			} catch (SQLException ex) {
-				System.out.println("\nNÃO FOI POSSÍVEL ACESSAR A BASE DE DADOS.\n" + ex);
+				System.out.println("\nNï¿½O FOI POSSï¿½VEL ACESSAR A BASE DE DADOS.\n" + ex);
 			}
 
 		} else {
-			System.out.println("\nTRANSAÇÃO DE EXCLUSÃO NÃO REALIZADA.\n");
+			System.out.println("\nTRANSAï¿½ï¿½O DE EXCLUSï¿½O Nï¿½O REALIZADA.\n");
 			flag = true;
 		}
 
@@ -406,18 +423,18 @@ public class ClienteDAO {
 		boolean flag = false;
 		String str;
 		System.out.println("\n--== [ CONSULTAR CLIENTE ] ==--\n");
-		System.out.println("\nINFORME O CÓDIGO DO CLIENTE.\n");
-		System.out.print("CÓDIGO: ");
+		System.out.println("\nINFORME O Cï¿½DIGO DO CLIENTE.\n");
+		System.out.print("Cï¿½DIGO: ");
 		str = sc.nextLine();
 		try {
 			codigo = Integer.parseInt(str);
 			if (codigo <= 0) {
-				System.out.println("\nO CÓDIGO DIGITADO NÃO É VÁLIDO.\n");
+				System.out.println("\nO Cï¿½DIGO DIGITADO Nï¿½O ï¿½ Vï¿½LIDO.\n");
 				flag = true;
 			}
 		} catch (NumberFormatException e) {
 
-			System.out.println("\nLETRAS NÃO SÃO PERMITIDAS.\n");
+			System.out.println("\nLETRAS Nï¿½O Sï¿½O PERMITIDAS.\n");
 			flag = true;
 
 		}
@@ -436,18 +453,18 @@ public class ClienteDAO {
 				flag = true;
 			}
 		} catch (SQLException ex) {
-			System.out.println("\nNÃO FOI POSSÍVEL ACESSAR A BASE DE DADOS.\n" + ex);
+			System.out.println("\nNï¿½O FOI POSSï¿½VEL ACESSAR A BASE DE DADOS.\n" + ex);
 		}
 
 		if (!flag) {
-			System.out.println("\nNÃO HÁ CLIENTE CADASTRADO COM O CÓDIGO " + codigo);
+			System.out.println("\nNï¿½O Hï¿½ CLIENTE CADASTRADO COM O Cï¿½DIGO " + codigo);
 			System.out.print("\n");
 		}
 
 	}
 
 	public void relatorioCliente() {
-		System.out.println("\n--== [ RELATÓRIO ] ==--\n");
+		System.out.println("\n--== [ RELATï¿½RIO ] ==--\n");
 		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 		ResultSet rs = null;
 		try {
@@ -473,7 +490,7 @@ public class ClienteDAO {
 				clientes.add(cli);
 			}
 		} catch (Exception e) {
-			System.out.println("\nNÃO FOI POSSÍVEL ACESSAR A BASE DE DADOS.\n");
+			System.out.println("\nNï¿½O FOI POSSï¿½VEL ACESSAR A BASE DE DADOS.\n");
 		}
 
 		for (Cliente c : clientes) {

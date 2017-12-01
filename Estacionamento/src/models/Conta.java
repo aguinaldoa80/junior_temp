@@ -4,6 +4,7 @@ public class Conta {
 	private Veiculo veiculo;
 	private Cliente cliente;
 	private Patio patio;
+	private Integer codigo;
 	private int diarias;
 	private int ano;
 	private int mes;
@@ -14,6 +15,14 @@ public class Conta {
 		this.ano = 2017;
 		this.mes = 1;
 		this.paga = false;
+	}
+
+	public Integer getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(Integer codigo) {
+		this.codigo = codigo;
 	}
 
 	public Veiculo getVeiculo() {
